@@ -1,0 +1,21 @@
+Based on the project description provided, here are the test cases designed to cover both positive and negative scenarios:
+
+| Test Case ID | Test Case Description                         | Pre-Conditions                        | Test Steps                                                                 | Expected Results                                                                                      |
+|--------------|-----------------------------------------------|---------------------------------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| TC01         | Verify low stock alert                        | Inventory items are added in the system | 1. Add an item with a threshold of 10 units. <br> 2. Update the item stock to 9 units. | 1. Item added successfully with correct threshold. <br> 2. Low stock alert is triggered for the item. |
+| TC02         | Verify automatic reorder functionality        | Low stock alert is set for an item     | 1. Set stock level to trigger reorder at 5 units. <br> 2. Update stock to 4 units. | 1. Reorder level set correctly. <br> 2. Automatic reorder is initiated for the item.                 |
+| TC03         | Verify mobile compatibility for updating stock | Mobile app is installed and functional | 1. Log in to the mobile app. <br> 2. Update stock levels for an item. | 1. Login successful. <br> 2. Stock levels updated successfully through the mobile app.               |
+| TC04         | Verify unauthorized access prevention         | User roles are defined in the system   | 1. Attempt to access the inventory with a guest account. | 1. Access denied for unauthorized user roles.                                                        |
+| TC05         | Verify data integrity during updates          | Multiple users are using the system    | 1. User A updates stock for an item. <br> 2. Simultaneously, User B updates stock for the same item. | 1. User A's update is successful. <br> 2. User B's update is queued and processed without data loss. |
+
+Negative Test Cases:
+
+| Test Case ID | Test Case Description                         | Pre-Conditions                        | Test Steps                                                                 | Expected Results                                                                                      |
+|--------------|-----------------------------------------------|---------------------------------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| TC06         | Verify alert failure on incorrect threshold   | Incorrect threshold set for an item   | 1. Set threshold to -5 units. <br> 2. Update stock to 4 units. | 1. Error message displayed for invalid threshold value. <br> 2. No alert is triggered.                |
+| TC07         | Verify failure of reorder on invalid settings | Reorder settings are incorrect        | 1. Set reorder to trigger at non-integer value. <br> 2. Decrease stock to trigger level. | 1. Error message displayed for invalid reorder settings. <br> 2. No reorder is initiated.             |
+| TC08         | Verify mobile access with wrong credentials   | Mobile app is installed               | 1. Attempt to log in with incorrect username and password. | 1. Login fails with an error message about incorrect credentials.                                     |
+| TC09         | Verify data corruption during simultaneous updates | No data locking mechanism in place   | 1. User A and User B simultaneously update stock for the same item. | 1. Data corruption occurs, or one user's update overrides the other's without warning.                |
+| TC10         | Verify system behavior when network is down   | Network connectivity issues           | 1. Try to update stock levels during network downtime. | 1. Update fails with a network error message.                                                         |
+
+These test cases aim to cover the critical functionalities of the inventory management application, ensuring both its robustness and its ability to handle error conditions effectively.
