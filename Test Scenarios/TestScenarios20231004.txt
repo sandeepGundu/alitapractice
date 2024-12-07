@@ -1,0 +1,63 @@
+```gherkin
+Feature: Inventory Management Alerts and Functions
+
+  Background:
+    Given User is logged into the inventory management system
+
+  @alert-functionality
+  Scenario Outline: Verify the alert functionality for low stock levels
+    Given there are inventory items added
+    When User reduces the stock level of <item> below the specified threshold
+    Then the system should trigger an alert notifying low stock levels
+    And an alert for low stock should be visible in the alert notification area
+
+    Examples:
+      | item     |
+      | Item001  |
+      | Item002  |
+
+  @automatic-reorder
+  Scenario: Verify automatic reorder of supplies
+    Given Item's reorder level and supplier are set
+    When User reduces the stock level of an item to trigger automatic reorder
+    Then Automatic reorder should be initiated
+    And Order status should be 'Processing' or 'Ordered'
+
+  @mobile-compatibility
+  Scenario: Verify mobile compatibility and accessibility
+    Given User has a mobile device with internet connection
+    When User accesses the inventory management application on a mobile device
+    Then Application should load and display correctly on mobile
+    And All features should be accessible and functional on mobile
+
+  @security
+  Scenario: Verify security by attempting unauthorized access
+    Given Proper user credentials are known
+    When User attempts to login with incorrect credentials
+    Then Login should fail with an error message for incorrect login
+    When User attempts to access sensitive data without logging in
+    Then Access should be denied with a security warning
+
+  @update-on-the-go
+  Scenario: Verify updating inventory information on the go
+    Given User is logged in on a mobile device
+    When User updates the stock level of an item using the mobile interface
+    Then Stock level should be updated successfully
+    And Updated stock level should be reflected in the inventory system
+
+  @threshold-behavior
+  Scenario: Test application behavior at threshold boundary
+    Given Item is at threshold stock level
+    When User reduces the stock of an item exactly at the threshold level
+    Then No alert should be triggered as it's not below the threshold
+    When User reduces the stock by one more unit
+    Then Alert for low stock should be triggered
+
+  @offline-functionality
+  Scenario: Verify functionality without internet connectivity
+    Given User has a mobile device without internet access
+    When User attempts to access the application on a mobile device without internet
+    Then Application should display an error or offline status
+    When User tries to update inventory information
+    Then Update should fail with an appropriate error message
+```
