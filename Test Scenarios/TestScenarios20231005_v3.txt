@@ -1,0 +1,82 @@
+Feature: Inventory Management System
+
+Background:
+  GIVEN the Inventory Management System is accessible
+
+@inventory @usage
+Scenario: Verify the tracking of inventory item usage
+  GIVEN Inventory items are listed in the system
+  WHEN User accesses the inventory list
+  AND User selects an item
+  AND User updates the usage
+  THEN Inventory list is displayed
+  AND Item details are accessible
+  AND Usage is updated successfully
+
+@inventory @alerts
+Scenario: Verify alerts when stock levels fall below the threshold
+  GIVEN Threshold levels are set for items
+  WHEN User updates item usage to below threshold level
+  AND User checks for alerts
+  THEN Usage is updated
+  AND Alert is generated indicating low stock level
+
+@inventory @reordering
+Scenario: Verify automatic reordering of supplies
+  GIVEN Item stock is below reorder threshold
+  WHEN User simulates reaching reorder level
+  AND User checks for reorder action
+  THEN Reorder level is reached
+  AND System automatically places an order for the item
+
+@inventory @mobile
+Scenario: Verify mobile compatibility and remote access
+  GIVEN User has mobile device with the app installed
+  WHEN User logs in via mobile device
+  AND User accesses inventory data
+  THEN Login is successful
+  AND Inventory data is accessible and up-to-date
+
+@inventory @security
+Scenario: Verify security measures for unauthorized access
+  GIVEN User roles are defined in the system
+  WHEN User attempts to access using invalid credentials
+  AND User tries to modify data
+  THEN Access is denied
+  AND Data modification is blocked
+
+@inventory @zero_stock
+Scenario: Verify the system handles zero stock level without crashing
+  GIVEN Item with zero stock is present
+  WHEN User accesses item with zero stock
+  AND User views item details
+  THEN Item is accessible
+  AND Details are displayed correctly without system errors
+
+@inventory @threshold_alert
+Scenario: Test alert functionality at exact threshold boundary
+  GIVEN Item stock is exactly at the threshold
+  WHEN User accesses the item
+  AND User checks for alerts
+  THEN Item is accessible
+  AND Alert for low stock is generated
+
+@inventory @multi_location
+Scenario: Verify updating inventory from multiple locations
+  GIVEN User is logged in from two different locations
+  WHEN User updates stock from location A
+  AND User checks updated stock from location B
+  THEN Stock update is successful from location A
+  AND Updated stock is reflected correctly at location B
+
+@inventory @negative_test
+Scenario: Negative test for unauthorized data modification
+  GIVEN User with read-only access attempts to modify data
+  WHEN User attempts to modify inventory data
+  THEN Modification attempt is blocked and user receives an error message
+
+@inventory @max_items
+Scenario: Edge case for handling maximum inventory items
+  GIVEN Maximum limit of inventory items is reached
+  WHEN User tries to add one more item to the inventory
+  THEN System should not allow adding more items and should display an appropriate error message
