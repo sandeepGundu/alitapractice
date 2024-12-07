@@ -1,0 +1,66 @@
+Feature: Inventory Management System Alerts and Operations
+
+  Background:
+    Given the inventory management system is set up with initial configurations
+
+  @stock_alert
+  Scenario: Verify stock level alerts
+    Given stock levels are set for various items
+    When the user reduces the stock level of an item below the specified threshold
+    Then the system should automatically alert the user about the low stock level
+
+  @auto_reorder
+  Scenario: Verify automatic reordering of supplies
+    Given stock levels are below reorder threshold
+    When the system checks stock levels
+    Then it should automatically place an order for items below the reorder threshold
+
+  @mobile_compatibility
+  Scenario: Verify mobile compatibility and accessibility
+    Given a user has a mobile device with the app installed
+    When the user accesses the inventory management application on a mobile device
+    Then the application should load and display correctly on the mobile device
+
+  @access_prevention
+  Scenario: Verify unauthorized access prevention
+    Given user roles are defined in the system
+    When a user attempts to access the system with a role that has no permissions
+    Then the system should deny access and display an unauthorized access message
+
+  @data_integrity
+  Scenario: Verify data integrity on network failure
+    Given network connectivity is unstable
+    When the user performs inventory updates and then simulates a network failure
+    Then the system should ensure no data loss and data should be consistent once the network is restored
+
+Feature: Inventory Management System Negative Scenarios
+
+  @alert_failure
+  Scenario: Verify alert failure on incorrect threshold
+    Given an incorrect stock threshold is set
+    When the user reduces the stock level of an item below the incorrect threshold
+    Then the system should not alert the user, identifying a setup issue in threshold configuration
+
+  @reorder_failure
+  Scenario: Verify failure in reordering without vendor details
+    Given no vendor details are provided for an item
+    When the stock of an item falls below the reorder threshold
+    Then the system should fail to place an order and notify the user of missing vendor details
+
+  @mobile_incompatibility
+  Scenario: Verify mobile incompatibility on outdated OS
+    Given a mobile device has an outdated OS
+    When the user attempts to run the application on this device
+    Then the application should not install or should display compatibility issues
+
+  @data_corruption
+  Scenario: Verify data corruption on abrupt app closure
+    Given a user is updating inventory data
+    When the user abruptly closes the app during data update
+    Then the system should either rollback the incomplete transaction or prompt data corruption warning
+
+  @unauthorized_api_access
+  Scenario: Verify unauthorized data access through API
+    Given API endpoints are exposed
+    When a user accesses the API with unauthorized credentials
+    Then the system should block access and log the unauthorized attempt
