@@ -1,0 +1,64 @@
+Feature: Inventory Management System Alerts and Functionality
+
+  Background:
+    Given User has access to the inventory management application
+
+  @stock_alert
+  Scenario: Verify stock level alerts
+    Given Stock levels are set with specific limits
+    When User reduces the stock level of an item below the set threshold
+    Then The system should trigger an alert indicating that the stock level is low
+
+  @auto_reorder
+  Scenario: Verify automatic reordering of supplies
+    Given Stock levels are below reorder threshold
+    When The system checks stock levels
+    Then The system should automatically place an order for the supplies needed
+
+  @mobile_compatibility
+  Scenario: Verify mobile compatibility and accessibility
+    Given User has mobile access to the application
+    When User accesses the inventory management application from a mobile device
+    Then The application should be fully functional and display correctly on mobile
+
+  @unauthorized_access
+  Scenario: Verify unauthorized access prevention
+    Given User is not logged in
+    When User attempts to access sensitive inventory data without logging in
+    Then Access should be denied and the user should be prompted to log in
+
+  @inventory_update_mobile
+  Scenario: Verify inventory update on mobile
+    Given User is logged in on a mobile device
+    When User updates the stock level of an item using a mobile device
+    Then The stock level should be updated successfully and reflect the new amount
+
+  @exceed_stock_threshold
+  Scenario: Negative Test: Exceed stock level threshold
+    Given Stock levels are set with specific limits
+    When User increases the stock level of an item above the set maximum threshold
+    Then The system should not allow the update and should display an error message
+
+  @unauthorized_modification
+  Scenario: Negative Test: Unauthorized data modification
+    Given User is logged in with read-only access
+    When User attempts to modify stock levels
+    Then The system should deny the modification and display an unauthorized error
+
+  @zero_stock_level
+  Scenario: Edge Case: Zero stock level
+    Given Item stock level is exactly at zero
+    When User checks the system response when stock level is zero and an order is made
+    Then The system should handle the zero level appropriately, possibly reordering
+
+  @low_connectivity
+  Scenario: Edge Case: Mobile access in low connectivity
+    Given User is in a low connectivity area
+    When User accesses the application and performs an inventory update
+    Then The application should queue updates and sync once connectivity is restored
+
+  @simultaneous_access
+  Scenario: Edge Case: Simultaneous access by multiple users
+    Given Multiple users access the same data
+    When Multiple users update the same stock item at the same time
+    Then The system should manage concurrent updates without data loss or corruption
