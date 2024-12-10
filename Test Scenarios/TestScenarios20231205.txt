@@ -1,0 +1,57 @@
+Feature: Inventory Management System Alerts and Actions
+
+  Background:
+    Given the inventory management system is set up with initial configurations
+
+  @alert
+  Scenario: Verify automatic alert on low stock
+    Given inventory items are already added in the system
+    When the user reduces the stock of an item below the specified threshold
+    Then the system should automatically alert the user that the stock level is low
+
+  @reorder
+  Scenario: Verify automatic reordering of supplies
+    Given stock levels are set and supplier details exist
+    When the user allows stock of an item to fall below reorder level
+    Then the system should automatically place an order with the supplier for replenishment
+
+  @mobile
+  Scenario: Verify mobile compatibility and accessibility
+    Given the user has a mobile device with internet access
+    When the user accesses the inventory management application on a mobile device
+    Then the application should load and display correctly on the mobile device
+
+  @security
+  Scenario: Verify security measures for unauthorized access
+    Given user profiles are set with varying permissions
+    When the user attempts to access the application with an unauthorized user profile
+    Then the system should deny access and log the unauthorized attempt
+
+  @update
+  Scenario: Verify update of inventory information on mobile
+    Given the user is logged in on a mobile device
+    When the user updates the stock level of an item using the mobile application
+    Then the stock level should be updated successfully and reflect immediately in the system
+
+  @negative
+  Scenario: Negative Test: Exceed stock capacity
+    Given maximum stock capacity is predefined
+    When the user attempts to add stock beyond the maximum capacity limit
+    Then the system should prevent adding stock and display an error message about exceeding capacity
+
+  @invalid
+  Scenario: Negative Test: Invalid supplier details
+    Given supplier details are required for reordering
+    When the user enters invalid supplier details and tries to place an order
+    Then the system should fail to place the order and alert the user about invalid supplier details
+
+  @edge
+  Scenario Outline: Edge Case Scenarios
+    Given <Pre-Condition>
+    When the user <Action>
+    Then the system should <Expected Result>
+
+    Examples:
+      | Pre-Condition                         | Action                                             | Expected Result                                                                 |
+      | Stock level is exactly at the reorder threshold | checks if the system reorders when the stock level is at the threshold | place an order automatically as the stock level is at the reorder threshold |
+      | User credentials are expired           | attempts to log in with expired credentials        | deny access and prompt the user to renew their credentials                     |
